@@ -1,14 +1,17 @@
 import java.awt.*;
+import java.util.Random;
 
 class Maze {
     private final boolean[][] grid;
+    private final Random random;
 
     public Maze(int rows, int cols) {
         grid = new boolean[rows][cols];
-        initializeWalls();
+        random = new Random();
+        generateMaze();
     }
 
-    private void initializeWalls() {
+    private void generateMaze() {
         // Create borders
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
@@ -18,12 +21,59 @@ class Maze {
             }
         }
 
-        // Add some internal walls
-        grid[5][3] = true;
-        grid[5][4] = true;
-        grid[5][5] = true;
-        grid[3][7] = true;
-        grid[4][7] = true;
+        // Add more sophisticated wall generation
+        int wallDensity = grid.length * grid[0].length / 10;
+        for (int k = 0; k < wallDensity; k++) {
+            int attempts = 0;
+            while (attempts < 100) {
+                int x = random.nextInt(grid[0].length);
+                int y = random.nextInt(grid.length);
+
+                // Avoid walls on borders
+                if (x == 0 || x == grid[0].length - 1 || y == 0 || y == grid.length - 1) {
+                    continue;
+                }
+
+                // Create wall segments with some randomness
+                if (random.nextBoolean()) {
+                    // Vertical wall segment
+                    int length = random.nextInt(3) + 2;
+                    boolean canPlace = true;
+                    for (int i = 0; i < length; i++) {
+                        if (y + i >= grid.length || grid[y + i][x]) {
+                            canPlace = false;
+                            break;
+                        }
+                    }
+
+                    if (canPlace) {
+                        for (int i = 0; i < length; i++) {
+                            grid[y + i][x] = true;
+                        }
+                        break;
+                    }
+                } else {
+                    // Horizontal wall segment
+                    int length = random.nextInt(3) + 2;
+                    boolean canPlace = true;
+                    for (int j = 0; j < length; j++) {
+                        if (x + j >= grid[0].length || grid[y][x + j]) {
+                            canPlace = false;
+                            break;
+                        }
+                    }
+
+                    if (canPlace) {
+                        for (int j = 0; j < length; j++) {
+                            grid[y][x + j] = true;
+                        }
+                        break;
+                    }
+                }
+
+                attempts++;
+            }
+        }
     }
 
     public void draw(Graphics2D g2d, int tileSize) {
@@ -38,5 +88,17 @@ class Maze {
 
     public boolean isValidPosition(int x, int y) {
         return y >= 0 && y < grid.length && x >= 0 && x < grid[0].length && !grid[y][x];
+    }
+
+    // Optional: Method to get total wall count for analysis
+    public int getWallCount() {
+        int wallCount = 0;
+        for (boolean[] row : grid) {
+            for (boolean cell : row) {
+                if (cell)
+                    wallCount++;
+            }
+        }
+        return wallCount;
     }
 }
