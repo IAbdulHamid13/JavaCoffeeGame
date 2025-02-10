@@ -6,9 +6,23 @@ class Maze {
     private final Random random;
 
     public Maze(int rows, int cols) {
+        this(rows, cols, false);
+    }
+
+    public Maze(int rows, int cols, boolean simple) {
         grid = new boolean[rows][cols];
         random = new Random();
-        generateMaze();
+        if (simple) generateSimpleMaze();
+        else generateMaze();
+    }
+
+    private void generateSimpleMaze() {
+        // Simple maze with guaranteed path
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                grid[i][j] = i == 0 || i == grid.length - 1 || j == 0 || j == grid[0].length - 1;
+            }
+        }
     }
 
     private void generateMaze() {
@@ -21,7 +35,7 @@ class Maze {
             }
         }
 
-        // Add more sophisticated wall generation
+        // Add more complex wall generation
         int wallDensity = grid.length * grid[0].length / 10;
         for (int k = 0; k < wallDensity; k++) {
             int attempts = 0;
@@ -45,7 +59,6 @@ class Maze {
                             break;
                         }
                     }
-
                     if (canPlace) {
                         for (int i = 0; i < length; i++) {
                             grid[y + i][x] = true;
@@ -88,17 +101,5 @@ class Maze {
 
     public boolean isValidPosition(int x, int y) {
         return y >= 0 && y < grid.length && x >= 0 && x < grid[0].length && !grid[y][x];
-    }
-
-    // Optional: Method to get total wall count for analysis
-    public int getWallCount() {
-        int wallCount = 0;
-        for (boolean[] row : grid) {
-            for (boolean cell : row) {
-                if (cell)
-                    wallCount++;
-            }
-        }
-        return wallCount;
     }
 }
