@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         while (!validMaze && attempts < maxAttempts) {
             maze = new Maze(ROWS, COLS);
-            
+
             // Find player starting position
             int playerX = 1, playerY = 1;
             for (int y = 1; y < ROWS - 1; y++) {
@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements KeyListener {
             Random random = new Random();
             int coffeesToSpawn = 3;
             int coffeeAttempts = 0;
-            
+
             while (coffees.size() < coffeesToSpawn && coffeeAttempts < 100) {
                 int x = random.nextInt(COLS);
                 int y = random.nextInt(ROWS);
@@ -79,13 +79,14 @@ public class GamePanel extends JPanel implements KeyListener {
 
     private boolean isMazeValid(int startX, int startY) {
         int[][] distances = new int[ROWS][COLS];
-        for (int[] row : distances) Arrays.fill(row, Integer.MAX_VALUE);
+        for (int[] row : distances)
+            Arrays.fill(row, Integer.MAX_VALUE);
         distances[startY][startX] = 0;
 
         PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> distances[a[1]][a[0]]));
-        queue.add(new int[]{startX, startY});
+        queue.add(new int[] { startX, startY });
 
-        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
 
         while (!queue.isEmpty()) {
             int[] current = queue.poll();
@@ -99,7 +100,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 if (newX >= 0 && newX < COLS && newY >= 0 && newY < ROWS) {
                     if (maze.isValidPosition(newX, newY) && distances[newY][newX] > distances[y][x] + 1) {
                         distances[newY][newX] = distances[y][x] + 1;
-                        queue.add(new int[]{newX, newY});
+                        queue.add(new int[] { newX, newY });
                     }
                 }
             }
@@ -114,7 +115,6 @@ public class GamePanel extends JPanel implements KeyListener {
         return true;
     }
 
-    
     private void calculateTileSize() {
         int width = getWidth();
         int height = getHeight();

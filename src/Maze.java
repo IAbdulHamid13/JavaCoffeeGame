@@ -12,8 +12,10 @@ class Maze {
     public Maze(int rows, int cols, boolean simple) {
         grid = new boolean[rows][cols];
         random = new Random();
-        if (simple) generateSimpleMaze();
-        else generateMaze();
+        if (simple)
+            generateSimpleMaze();
+        else
+            generateMaze();
     }
 
     private void generateSimpleMaze() {
