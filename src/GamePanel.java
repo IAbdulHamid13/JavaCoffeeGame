@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private List<Coffee> coffees;
     private Maze maze;
     private int score = 0;
-    private int movesLeft = 50;
+    private int movesLeft = 10;
     private boolean gameOver = false;
 
     public GamePanel() {
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements KeyListener {
             // Place coffees
             coffees = new ArrayList<>();
             Random random = new Random();
-            int coffeesToSpawn = 3;
+            int coffeesToSpawn = 5;
             int coffeeAttempts = 0;
 
             while (coffees.size() < coffeesToSpawn && coffeeAttempts < 100) {
@@ -152,15 +152,16 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void drawUI(Graphics2D g2d) {
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.WHITE);
         g2d.drawString("Score: " + score, 10, 20);
         g2d.drawString("Moves Left: " + movesLeft, 10, 40);
     }
 
     private void drawGameOver(Graphics2D g2d) {
-        g2d.setColor(Color.RED);
         g2d.setFont(new Font("Arial", Font.BOLD, 30));
-        String message = score >= coffees.size() * 100 ? "You Win!" : "Game Over!";
+        boolean isWin = score >= coffees.size() * 100;
+        String message = isWin ? "You Win!" : "Game Over!";
+        g2d.setColor(isWin ? Color.GREEN : Color.RED);
         g2d.drawString(message, getWidth() / 2 - 80, getHeight() / 2);
     }
 
