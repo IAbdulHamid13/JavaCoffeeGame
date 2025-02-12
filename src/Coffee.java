@@ -13,10 +13,35 @@ class Coffee {
     public void draw(Graphics2D g2d, int tileSize) {
         if (collected)
             return;
+
         int x = gridX * tileSize;
         int y = gridY * tileSize;
-        g2d.setColor(new Color(139, 69, 19)); // Brown color
-        g2d.fillOval(x + tileSize / 4, y + tileSize / 4, tileSize / 2, tileSize / 2);
+
+        // Cup body
+        g2d.setColor(new Color(245, 245, 245)); // Off-white
+        int cupWidth = tileSize / 2;
+        int cupHeight = tileSize / 2;
+        int[] xPoints = {
+                x + tileSize / 4,
+                x + tileSize / 4 + cupWidth,
+                x + tileSize / 4 + cupWidth - 10,
+                x + tileSize / 4 + 10
+        };
+        int[] yPoints = {
+                y + tileSize / 2,
+                y + tileSize / 2,
+                y + tileSize / 2 + cupHeight,
+                y + tileSize / 2 + cupHeight
+        };
+        g2d.fillPolygon(xPoints, yPoints, 4);
+
+        // Coffee liquid (brown oval)
+        g2d.setColor(new Color(139, 69, 19));
+        g2d.fillOval(
+                x + tileSize / 4 + 5,
+                y + tileSize / 2 - 5,
+                cupWidth - 10,
+                cupHeight / 3);
     }
 
     public void collect() {
