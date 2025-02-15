@@ -31,7 +31,7 @@ class Player {
         int bodyY = y + tileSize / 4;
         g2d.drawLine(centerX, bodyY, centerX, y + tileSize / 2);
 
-        // Arms (Neutral Position)
+        // Arms
         g2d.drawLine(centerX - tileSize / 4, y + tileSize / 3, centerX + tileSize / 4, y + tileSize / 3);
 
         // Legs

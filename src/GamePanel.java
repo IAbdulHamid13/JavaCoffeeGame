@@ -34,6 +34,11 @@ public class GamePanel extends JPanel implements KeyListener {
     private void initializeGame() {
         boolean validMaze = false;
         int maxAttempts = 100;
+        /*
+         * We have 100 chances to generate a valid complex maze and if that doesn't work
+         * (if the randomness doesn't agree)
+         * then it will generate a simple maze.
+         */
         int attempts = 0;
 
         while (!validMaze && attempts < maxAttempts) {
@@ -54,8 +59,8 @@ public class GamePanel extends JPanel implements KeyListener {
             // Place coffees
             coffees = new ArrayList<>();
             Random random = new Random();
-            int coffeesToSpawn = 5;
-            int coffeeAttempts = 0;
+            int coffeesToSpawn = 5; // The number of coffees in the level
+            int coffeeAttempts = 0; // The number of coffees collected by Joe
 
             while (coffees.size() < coffeesToSpawn && coffeeAttempts < 100) {
                 int x = random.nextInt(COLS);
@@ -83,6 +88,10 @@ public class GamePanel extends JPanel implements KeyListener {
             Arrays.fill(row, Integer.MAX_VALUE);
         distances[startY][startX] = 0;
 
+        /*
+         * I used Dijkstra's algorithm because although it's a bit slower, it's more
+         * comprehensive for path finding
+         */
         PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> distances[a[1]][a[0]]));
         queue.add(new int[] { startX, startY });
 

@@ -20,22 +20,17 @@ class Maze {
 
     private void generateSimpleMaze() {
         // Simple maze with guaranteed path
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
+        for (int i = 0; i < grid.length; i++)
+            for (int j = 0; j < grid[0].length; j++)
                 grid[i][j] = i == 0 || i == grid.length - 1 || j == 0 || j == grid[0].length - 1;
-            }
-        }
     }
 
     private void generateMaze() {
         // Create borders
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (i == 0 || i == grid.length - 1 || j == 0 || j == grid[0].length - 1) {
+        for (int i = 0; i < grid.length; i++)
+            for (int j = 0; j < grid[0].length; j++)
+                if (i == 0 || i == grid.length - 1 || j == 0 || j == grid[0].length - 1)
                     grid[i][j] = true;
-                }
-            }
-        }
 
         // Add more complex wall generation
         int wallDensity = grid.length * grid[0].length / 10;
@@ -46,9 +41,8 @@ class Maze {
                 int y = random.nextInt(grid.length);
 
                 // Avoid walls on borders
-                if (x == 0 || x == grid[0].length - 1 || y == 0 || y == grid.length - 1) {
+                if (x == 0 || x == grid[0].length - 1 || y == 0 || y == grid.length - 1)
                     continue;
-                }
 
                 // Create wall segments with some randomness
                 if (random.nextBoolean()) {
@@ -62,9 +56,8 @@ class Maze {
                         }
                     }
                     if (canPlace) {
-                        for (int i = 0; i < length; i++) {
+                        for (int i = 0; i < length; i++)
                             grid[y + i][x] = true;
-                        }
                         break;
                     }
                 } else {
@@ -79,13 +72,11 @@ class Maze {
                     }
 
                     if (canPlace) {
-                        for (int j = 0; j < length; j++) {
+                        for (int j = 0; j < length; j++)
                             grid[y][x + j] = true;
-                        }
                         break;
                     }
                 }
-
                 attempts++;
             }
         }
@@ -93,11 +84,9 @@ class Maze {
 
     public void draw(Graphics2D g2d, int tileSize) {
         for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j]) {
+            for (int j = 0; j < grid[0].length; j++)
+                if (grid[i][j])
                     g2d.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
-                }
-            }
         }
     }
 

@@ -19,6 +19,7 @@ class Coffee {
 
         // Cup body
         g2d.setColor(new Color(245, 245, 245)); // Off-white
+        // I'm not really sure what colour to give it to make it make sense
         int cupWidth = tileSize / 2;
         int cupHeight = tileSize / 2;
         int[] xPoints = {
